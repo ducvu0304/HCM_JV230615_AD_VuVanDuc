@@ -293,7 +293,6 @@ public class SongService {
             if(songs[i].getSinger().getSingerName().contains(findValue) || songs[i].getSinger().getGenre().contains(findValue)) {
                 isExist = true;
                 songs[i].display();
-                break;
             }
         }
 
