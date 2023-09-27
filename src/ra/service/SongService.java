@@ -20,142 +20,144 @@ public class SongService {
         try {
             System.out.println("Nhập vào số lượng bài hát cần thêm");
             number = Integer.parseInt(scanner.nextLine().trim());
-        } catch (InputMismatchException e) {
-            System.err.println("Nhập sai định dạng");
-        }
 
-        /**Input data*/
-        for (int i = 0; i < number; i++) {
-            /**Khởi tạo đối tượng*/
-            Song song = new Song();
+            /**Input data*/
+            for (int i = 0; i < number; i++) {
+                /**Khởi tạo đối tượng*/
+                Song song = new Song();
 
-            System.out.println("****************");
-            /** Input song id */
-            while (isLoop) {
-                iExist = false;
+                System.out.println("****************");
+                /** Input song id */
+                while (isLoop) {
+                    iExist = false;
 
-                System.out.println("XIn mời nhập mã bài hát:");
-                String songId = scanner.nextLine().trim();
+                    System.out.println("XIn mời nhập mã bài hát:");
+                    String songId = scanner.nextLine().trim();
 
-                if (Pattern.matches("^S\\w{3}$", songId)) {
-                    for (int j = 0; j < MusicManagement.songIndex; j++) {
-                        if (songs[j].getSongId().equals(songId)) {
-                            iExist = true;
-                            System.err.printf("Mã bài hat \"%S\" đã tồn tại!\n", songId);
-                            break;
+                    if (Pattern.matches("^S\\w{3}$", songId)) {
+                        for (int j = 0; j < MusicManagement.songIndex; j++) {
+                            if (songs[j].getSongId().equals(songId)) {
+                                iExist = true;
+                                System.err.printf("Mã bài hat \"%S\" đã tồn tại!\n", songId);
+                                break;
+                            }
                         }
-                    }
-                } else {
-                    iExist = true;
-                    System.err.printf("Tên bài hát \"%s\" phải là 4 ký từ và bắt đầu là ký tự \"S\"\n", songId);
-                }
-
-                if (!iExist) {
-                    song.setSongId(songId);
-                    break;
-                }
-            }
-
-            /** Input song name */
-            String songName = "";
-            do {
-                System.out.println("Xin nhập tên bài hát:");
-                songName = scanner.nextLine().trim();
-
-                if (songName.length() >= 1) {
-                    song.setSongName(songName);
-                    break;
-                } else {
-                    System.err.println("Tên ca sĩ không được để trống!");
-                }
-            } while (songName.length() < 1);
-
-            /** Input descriptions */
-            System.out.println("Xin mời nhập mô tả bài hát:");
-            String descriptions = scanner.nextLine().trim();
-            song.setDescriptions(descriptions);
-
-            /** Input singer */
-            while (isLoop) {
-                iExist = false;
-
-                try {
-                    System.out.println("Xin mời nhập mã ca sĩ");
-                    int singerId = Integer.parseInt(scanner.nextLine().trim());
-
-                    if (singerId >= 1 && singerId <= MusicManagement.singerIndex) {
+                    } else {
                         iExist = true;
-                        song.setSinger(singers[singerId - 1]);
-                        break;
+                        System.err.printf("Tên bài hát \"%s\" phải là 4 ký từ và bắt đầu là ký tự \"S\"\n", songId);
                     }
 
                     if (!iExist) {
-                        System.err.printf("Mã ca sĩ \"%s\" không có trong danh sách. Xin mời nhập lại\n", singerId);
+                        song.setSongId(songId);
+                        break;
                     }
-
-                } catch (InputMismatchException e) {
-                    System.err.println("Nhập sai định dạng");
                 }
+
+                /** Input song name */
+                String songName = "";
+                do {
+                    System.out.println("Xin nhập tên bài hát:");
+                    songName = scanner.nextLine().trim();
+
+                    if (songName.length() >= 1) {
+                        song.setSongName(songName);
+                        break;
+                    } else {
+                        System.err.println("Tên ca sĩ không được để trống!");
+                    }
+                } while (songName.length() < 1);
+
+                /** Input descriptions */
+                System.out.println("Xin mời nhập mô tả bài hát:");
+                String descriptions = scanner.nextLine().trim();
+                song.setDescriptions(descriptions);
+
+                /** Input singer */
+                while (isLoop) {
+                    iExist = false;
+
+                    try {
+                        System.out.println("Xin mời nhập mã ca sĩ");
+                        int singerId = Integer.parseInt(scanner.nextLine().trim());
+
+                        if (singerId >= 1 && singerId <= MusicManagement.singerIndex) {
+                            iExist = true;
+                            song.setSinger(singers[singerId - 1]);
+                            break;
+                        }
+
+                        if (!iExist) {
+                            System.err.printf("Mã ca sĩ \"%s\" không có trong danh sách. Xin mời nhập lại\n", singerId);
+                        }
+
+                    } catch (Exception e) {
+                        System.err.println("Nhập sai định dạng");
+                    }
+                }
+
+                /** Input songwriter */
+                String songWriter = "";
+                do {
+                    try {
+                        System.out.println("Xin mời nhập người sáng tác:");
+                        songWriter = scanner.nextLine().trim();
+
+                        if (songWriter.length() >= 1) {
+                            song.setSongWriter(songWriter);
+                            break;
+                        }else {
+                            System.err.println("Người sáng tác không để trống");
+                        }
+
+                    } catch (Exception e) {
+                        System.err.println("Nhập sai định dạng");
+                    }
+                } while (songWriter.length() < 1);
+
+                /** Input date */
+                Calendar calendar = Calendar.getInstance();
+                song.setCreatedDate(calendar.getTime());
+
+                /** Input song status */
+                do {
+                    boolean isExit = false;
+
+                    try {
+                        System.out.printf("Xin mời chọn trạng thai bài hát (1. Phổ biến - 2. Không phổ biên):\n");
+                        int choiceStatus = Integer.parseInt(scanner.nextLine().trim());
+
+                        switch (choiceStatus) {
+                            case 1:
+                                song.setSongStatus(true);
+                                isExit = true;
+                                break;
+                            case 2:
+                                song.setSongStatus(false);
+                                isExit = true;
+                                break;
+                            default:
+                                System.err.printf("Lưa chọn \"d\" không có", choiceStatus);
+                        }
+
+                        if (isExit) {
+                            break;
+                        }
+
+                    } catch (Exception e) {
+                        System.err.println("Nhập định dạng không hợp lệ!");
+                    }
+                } while (isLoop);
+
+
+                /**Thêm ca sĩ vào danh sách*/
+                songs[MusicManagement.songIndex] = song;
+                MusicManagement.songIndex++;
             }
-
-            /** Input songwriter */
-            String songWriter = "";
-            do {
-                try {
-                    System.out.println("Xin mời nhập người sáng tác:");
-                    songWriter = scanner.nextLine().trim();
-
-                    if (songWriter.length() >= 1) {
-                        song.setSongWriter(songWriter);
-                        break;
-                    }else {
-                        System.err.println("Người sáng tác không để trống");
-                    }
-
-                } catch (InputMismatchException e) {
-                    System.err.println("Nhập sai định dạng");
-                }
-            } while (songWriter.length() < 1);
-
-            /** Input date */
-            Calendar calendar = Calendar.getInstance();
-            song.setCreatedDate(calendar.getTime());
-
-            /** Input song status */
-            do {
-                boolean isExit = false;
-
-                try {
-                    System.out.printf("Xin mời chọn trạng thai bài hát (1. Phổ biến - 2. Không phổ biên):\n");
-                    int choiceStatus = Integer.parseInt(scanner.nextLine().trim());
-
-                    switch (choiceStatus) {
-                        case 1:
-                            song.setSongStatus(true);
-                            isExit = true;
-                            break;
-                        case 2:
-                            song.setSongStatus(false);
-                            isExit = true;
-                            break;
-                        default:
-                            System.err.printf("Lưa chọn \"d\" không có", choiceStatus);
-                    }
-
-                    if (isExit) {
-                        break;
-                    }
-
-                } catch (InputMismatchException e) {
-                    System.err.println("Nhập định dạng không hợp lệ!");
-                }
-            } while (isLoop);
-
-
-            /**Thêm ca sĩ vào danh sách*/
-            songs[MusicManagement.songIndex] = song;
-            MusicManagement.songIndex++;
+        } catch (Exception e) {
+            System.err.println("Nhập sai định dạng");
         }
+
+
     }
 
     public void findAllSong(Song[] songs) {
