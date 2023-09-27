@@ -39,7 +39,7 @@ public class SongService {
 
                 if (Pattern.matches("^S\\w{3}$", songId)) {
                     for (int j = 0; j < MusicManagement.songIndex; j++) {
-                        if (songs[i].getSongName().equals(songId)) {
+                        if (songs[i].getSongId().equals(songId)) {
                             iExist = true;
                             System.err.printf("Mã bài hat \"%S\" đã tồn tại!\n", songId);
                             break;
