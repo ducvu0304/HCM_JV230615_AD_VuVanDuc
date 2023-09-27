@@ -50,6 +50,8 @@ public class MusicManagement {
                     default:
                         System.err.printf("Chức năng \"%d\" không có", choice);
                 }
+
+
             }catch (InputMismatchException e){
                 System.err.println("Nhập sai định dạng");
             }
