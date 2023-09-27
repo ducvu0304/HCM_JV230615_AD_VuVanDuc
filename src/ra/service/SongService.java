@@ -304,7 +304,7 @@ public class SongService {
     public void searchTenSong(Scanner scanner, Song[] songs) {
         for (int i = 0; i < MusicManagement.songIndex -1 ; i++) {
             for (int j = 0; j < MusicManagement.songIndex; j++) {
-                if(songs[i].getSongName().charAt(0) > songs[i].getSongName().charAt(0)){
+                if(songs[i].getSongName().compareTo(songs[j].getSongName()) > 0){
                     Song temp = songs[i];
                     songs[i] = songs[j];
                     songs[j] = temp;
@@ -321,7 +321,7 @@ public class SongService {
     public void findSongByTopDate(Scanner scanner, Song[] songs) {
         for (int i = 0; i < MusicManagement.songIndex -1 ; i++) {
             for (int j = 0; j < MusicManagement.songIndex; j++) {
-                if(songs[i].getCreatedDate().getTime() < songs[i].getCreatedDate().getTime()){
+                if(songs[i].getCreatedDate().getTime() < songs[j].getCreatedDate().getTime()){
                     Song temp = songs[i];
                     songs[i] = songs[j];
                     songs[j] = temp;
