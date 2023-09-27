@@ -16,12 +16,16 @@ public class SingerService {
         boolean iExist = false;
         int number = 0;
 
-        try {
-            System.out.println("Nhập vào số lượng ca sĩ cần thêm");
-            number = Integer.parseInt(scanner.nextLine().trim());
-        } catch (InputMismatchException e) {
-            System.err.println("Nhập sai định dạng");
+        while (isLoop) {
+            try {
+                System.out.println("Nhập vào số lượng ca sĩ cần thêm");
+                number = Integer.parseInt(scanner.nextLine().trim());
+                break;
+            } catch (Exception e) {
+                System.out.println("Nhập sai định dạng!.Xin vui lòng nhập lại");
+            }
         }
+
 
         /**Input data*/
         for (int i = 0; i < number; i++) {
@@ -58,9 +62,12 @@ public class SingerService {
                     } else {
                         System.err.println("Tuổi ca sĩ phải lơn hơn 0");
                     }
-                } catch (InputMismatchException e) {
+                } catch (Exception e) {
                     System.err.println("Nhập sai định dạng");
                 }
+
+
+
 
             } while (age < 1);
 
@@ -80,10 +87,11 @@ public class SingerService {
             /** Input gender */
             do {
                 boolean isExit = false;
+                int choiceGender = 0;
 
                 try {
                     System.out.printf("Xin mời chọn giới tính (1. Nam - 2. Nữ):\n");
-                    int choiceGender = Integer.parseInt(scanner.nextLine().trim());
+                    choiceGender = Integer.parseInt(scanner.nextLine().trim());
 
                     switch (choiceGender) {
                         case 1:
@@ -95,15 +103,17 @@ public class SingerService {
                             isExit = true;
                             break;
                         default:
-                            System.err.printf("Lưa chọn \"d\" không có", choiceGender);
+                            System.err.printf("Lưa chọn \"d\" không có. Xin mời chọn lại\n", choiceGender);
                     }
 
                     if (isExit) {
                         break;
                     }
-                } catch (InputMismatchException e) {
+
+                } catch (Exception e) {
                     System.err.println("Nhập định dạng không hợp lệ!");
                 }
+
             } while (isLoop);
 
 
@@ -241,7 +251,7 @@ public class SingerService {
                 /** Update genre */
                 String genre = "";
 
-                if(!genre.equals("")) {
+                if (!genre.equals("")) {
                     singers[index].setGenre(genre);
                 }
             }
@@ -253,31 +263,31 @@ public class SingerService {
         boolean isExist = false;
 
         while (true) {
-            try{
+            try {
                 System.out.println("Xin mời nhập mã ca sĩ");
                 int singerId = Integer.parseInt(scanner.nextLine().trim());
 
                 /**Check Singer is exists by id*/
                 for (int i = 0; i < MusicManagement.singerIndex; i++) {
-                    if(singers[i].getSingerId() == singerId) {
+                    if (singers[i].getSingerId() == singerId) {
                         index = i;
                         isExist = true;
                         break;
                     }
                 }
 
-                if(isExist) {
-                    for (int i = index; i < MusicManagement.singerIndex-1 ; i++) {
-                        singers[i] = singers[i+1];
+                if (isExist) {
+                    for (int i = index; i < MusicManagement.singerIndex - 1; i++) {
+                        singers[i] = singers[i + 1];
                     }
                     singers[MusicManagement.singerIndex] = null;
                     MusicManagement.singerIndex--;
                     break;
-                }else {
+                } else {
                     System.out.printf("Không tìm thấy ca sĩ có mã \"%s\"\n", singers);
                     break;
                 }
-            }catch (Exception e) {
+            } catch (Exception e) {
                 System.err.println("Nhập sai định dạng");
             }
         }
@@ -294,17 +304,16 @@ public class SingerService {
         boolean isExist = false;
 
         for (int i = 0; i < MusicManagement.singerIndex; i++) {
-            if(singers[i].getSingerName().contains(findValue) || singers[i].getGenre().contains(findValue)) {
+            if (singers[i].getSingerName().contains(findValue) || singers[i].getGenre().contains(findValue)) {
                 isExist = true;
                 singers[i].display();
             }
         }
 
-        if(!isExist) {
+        if (!isExist) {
             System.err.printf("Không tìm thấy ca sĩ tên \"%s\" hoặc thể loại \"%s\"\n", findValue, findValue);
         }
     }
-
 
 
 }
