@@ -182,7 +182,7 @@ public class SongService {
         boolean isExist = false;
 
 
-
+        System.out.println(MusicManagement.songIndex);
         for (int i = 0; i < MusicManagement.songIndex; i++) {
             if (songs[i].getSongId().equals(songId)) {
                 isExist = true;
@@ -193,7 +193,7 @@ public class SongService {
 
         /**Update singer*/
         if (!isExist) {
-            System.err.printf("Mã bài hát \"%d\" không có trong danh sách\n", songId);
+            System.err.printf("Mã bài hát \"%s\" không có trong danh sách\n", songId);
         } else {
             /** Update song name */
             System.out.println("Xin nhập tên bài hát:");
@@ -258,7 +258,7 @@ public class SongService {
         int index = 0;
         boolean isExist = false;
 
-        System.out.println("Xin mời nhập mã ca sĩ");
+        System.out.println("Xin mời nhập mã bài hát");
         String songID = scanner.nextLine().trim();
 
         /**Check Singer is exists by id*/
@@ -276,6 +276,7 @@ public class SongService {
             }
             songs[MusicManagement.songIndex] = null;
             MusicManagement.songIndex--;
+            System.out.printf("Bài mã có mã id \"%s\" đã xóa thành công\n", songID);
         } else {
             System.out.printf("Không tìm thấy bài hát có mã có mã \"%s\"\n", songID);
         }
