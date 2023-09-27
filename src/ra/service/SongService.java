@@ -292,7 +292,7 @@ public class SongService {
         for (int i = 0; i < MusicManagement.songIndex ; i++) {
             if(songs[i].getSinger().getSingerName().contains(findValue) || songs[i].getSinger().getGenre().contains(findValue)) {
                 isExist = true;
-                songs[i].getSinger().display();
+                songs[i].display();
                 break;
             }
         }
@@ -312,6 +312,11 @@ public class SongService {
                 }
             }
         }
+
+        System.out.println("Danh sách bài tháng theo thứ tự tên tăng lên");
+        for (int i = 0; i < MusicManagement.songIndex ; i++) {
+            System.out.printf("%d. %s\n", i+1, songs[i].getSongName());
+        }
     }
 
     public void findSongByTopDate(Scanner scanner, Song[] songs) {
@@ -322,6 +327,14 @@ public class SongService {
                     songs[i] = songs[j];
                     songs[j] = temp;
                 }
+            }
+        }
+
+        System.out.println("Danh sách bài tháng theo thứ tự tên tăng lên");
+        for (int i = 0; i < 10; i++) {
+            Optional<Song> checkNull = Optional.ofNullable(songs[i]);
+            if(checkNull.isPresent()) {
+                System.out.printf("%d. %s\n", i+1, songs[i].getSongName());
             }
         }
     }
